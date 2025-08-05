@@ -6,12 +6,7 @@ obj/
 *.userosscache
 *.sln.docstates
 
-# Avalonia / XAML-generated files
-*.g.cs
-*.g.i.cs
-*.axaml.cs
-*.axaml.g.cs
-*.axaml.g.i.cs
+
 
 # VS Code settings
 .vscode/
