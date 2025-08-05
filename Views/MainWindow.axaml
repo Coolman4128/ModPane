@@ -6,7 +6,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ModPane.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        Background="Transparent"
         Title="ModPane">
 
     <Design.DataContext>
@@ -15,6 +15,24 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+   <Grid RowDefinitions="Auto,*">
+    <!-- Custom Title Bar -->
+    <Border Background="{DynamicResource AcrylicBackground}" Height="30" Name="TitleBar">
+        <DockPanel>
+            <!-- Draggable Area -->
+            <TextBlock Text="My App" VerticalAlignment="Center" Foreground="White" Margin="10,0" />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="—" Click="MinimizeClick"/>
+                <Button Content="🗖" Click="MaximizeClick"/>
+                <Button Content="X" Click="CloseClick"/>
+            </StackPanel>
+        </DockPanel>
+    </Border>
+
+    <!-- Main Content -->
+    <ContentPresenter Grid.Row="1"/>
+</Grid>
+
 
 </Window>
