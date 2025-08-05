@@ -3,35 +3,102 @@
         xmlns:vm="using:ModPane.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="720"
         x:Class="ModPane.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Title="ModPane">
+        Title="LogicPlayground"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource PrimaryBackgroundColor}">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+    <Grid RowDefinitions="Auto,*" ColumnDefinitions="Auto,*">
+        <!-- Custom Title Bar -->
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                Name="TitleBar"
+                Background="{DynamicResource AccentColor}"
+                BorderBrush="{DynamicResource BorderColor}"
+                BorderThickness="0,0,0,1"
+                Height="30">
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="ModPane - v0.0.0"
+                               Margin="10,0"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextColor}"/>
+                </StackPanel>
 
-   <Grid RowDefinitions="Auto,*">
-    <!-- Custom Title Bar -->
-    <Border Background="Transparent" Height="30" Name="TitleBar">
-        <DockPanel>
-            <!-- Draggable Area -->
-            <TextBlock Text="My App" VerticalAlignment="Center" Foreground="White" Margin="10,0" />
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" 
+                            VerticalAlignment="Center">
+                    <Button Name="MinimizeButton" Click="MinimizeClick" Content="—" Width="40" Height="40" 
+                            Background="Transparent" BorderThickness="0" 
+                            Foreground="{DynamicResource TextColor}"/>
+                    <Button Name="MaximizeButton" Click="MaximizeClick" Content="🗖" Width="40" Height="40" 
+                            Background="Transparent" BorderThickness="0"
+                            Foreground="{DynamicResource TextColor}"/>
+                    <Button Name="CloseButton" Click="CloseClick" Content="✕" Width="40" Height="40" 
+                            Background="Transparent" BorderThickness="0"
+                            Foreground="{DynamicResource TextColor}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="—" Click="MinimizeClick"/>
-                <Button Content="🗖" Click="MaximizeClick"/>
-                <Button Content="X" Click="CloseClick"/>
-            </StackPanel>
-        </DockPanel>
-    </Border>
+        <!-- Left Sidebar -->
+        <Border Grid.Row="1" Grid.Column="0"
+                Background="{DynamicResource SecondaryBackgroundColor}"
+                BorderBrush="{DynamicResource BorderColor}"
+                BorderThickness="0,0,1,0"
+                Width="60">
+            <DockPanel>
+                <!-- Logo Area -->
+                <Border DockPanel.Dock="Top" Height="60" BorderBrush="{DynamicResource BorderColor}" BorderThickness="0,0,0,1">
+                    <Image Name="SidebarLogo" Source="/Assets/LogoDarkIcon.ico" Width="60" Height="60" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Border>
 
-    <!-- Main Content -->
-    <ContentPresenter Grid.Row="1"/>
-</Grid>
+                <!-- Settings Button -->
+                <Border DockPanel.Dock="Bottom" BorderBrush="{DynamicResource BorderColor}" BorderThickness="0,1,0,0">
+                    <Button Content="Settings" Height="50" Background="Transparent" BorderThickness="0"
+                            Foreground="{DynamicResource PrimaryForegroundColor}"/>
+                </Border>
 
+                <!-- Page Navigation -->
+                <StackPanel Orientation="Vertical" Margin="0,10">
+                    <Button Content="Home" Height="40" Background="Transparent" BorderThickness="0"
+                            Foreground="{DynamicResource PrimaryForegroundColor}"/>
+                    <Button Content="Logic" Height="40" Background="Transparent" BorderThickness="0"
+                            Foreground="{DynamicResource PrimaryForegroundColor}"/>
+                    <Button Content="Device" Height="40" Background="Transparent" BorderThickness="0"
+                            Foreground="{DynamicResource PrimaryForegroundColor}"/>
+                    <Button Content="Learn" Height="40" Background="Transparent" BorderThickness="0"
+                            Foreground="{DynamicResource PrimaryForegroundColor}"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
 
+        <!-- Main Content Area -->
+        <Grid Grid.Row="1" Grid.Column="1" RowDefinitions="Auto,*" ColumnDefinitions="*,Auto">
+            <!-- Top Page Header Bar -->
+            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                    Background="{DynamicResource SecondaryBackgroundColor}"
+                    BorderBrush="{DynamicResource BorderColor}"
+                    BorderThickness="0,0,0,1"
+                    Height="60">
+                <ContentControl Content="{Binding CurrentPage.HeaderContent}" VerticalAlignment="Center" Margin="10,0"/>
+            </Border>
+
+            <!-- Main Content View -->
+            <ContentControl Grid.Row="1" Grid.Column="0"
+                            Content="{Binding CurrentPage.MainContent}"
+                            Margin="5"/>
+
+            <!-- Collapsible Right-Side Panel -->
+            <Border Grid.Row="1" Grid.Column="1"
+                    Background="{DynamicResource SecondaryBackgroundColor}"
+                    BorderBrush="{DynamicResource BorderColor}"
+                    BorderThickness="1,0,0,0"
+                    Width="250"
+                    IsVisible="{Binding CurrentPage.IsSidePanelVisible}">
+                <ContentControl Content="{Binding CurrentPage.SidePanelContent}"/>
+            </Border>
+        </Grid>
+    </Grid>
 </Window>
+

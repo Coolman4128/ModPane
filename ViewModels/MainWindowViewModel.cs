@@ -1,6 +1,35 @@
-﻿namespace ModPane.ViewModels;
+﻿using Avalonia.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 
-public partial class MainWindowViewModel : ViewModelBase
+namespace ModPane.ViewModels
 {
-    public string Greeting { get; } = "Welcome to Avalonia!";
+    public partial class MainWindowViewModel : ViewModelBase
+    {
+        [ObservableProperty]
+        private PageViewModelBase _currentPage;
+
+        public ObservableCollection<PageViewModelBase> Pages { get; }
+
+        public MainWindowViewModel()
+        {
+            Pages = new ObservableCollection<PageViewModelBase>
+            {
+                new HomeViewModel(new TextBlock { Text = "Home Header" }, 
+                                   new TextBlock { Text = "Home Main Content" }, 
+                                   new TextBlock { Text = "Home Side Panel" }),
+                // Add other page view models here
+            };
+
+            _currentPage = Pages[0];
+        }
+
+        [RelayCommand]
+        private void NavigateTo(PageViewModelBase page)
+        {
+            CurrentPage = page;
+        }
+    }
 }
+

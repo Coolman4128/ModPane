@@ -1,0 +1,45 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style>
+        <Style.Resources>
+            <!-- Light Theme Colors (Blue & White) -->
+            <Color x:Key="Light.PrimaryBackgroundColor">#EAF6FF</Color> <!-- very light blue -->
+            <Color x:Key="Light.SecondaryBackgroundColor">#FFFFFF</Color>
+            <Color x:Key="Light.PrimaryForegroundColor">#003B73</Color> <!-- navy blue -->
+            <Color x:Key="Light.AccentColor">#0078D7</Color> <!-- Microsoft blue -->
+            <Color x:Key="Light.BorderColor">#BFD7ED</Color>
+            <Color x:Key="Light.TextColor">#000000</Color> <!-- black for text contrast -->
+
+            <!-- Dark Theme Colors (Red & Dark Gray) -->
+            <Color x:Key="Dark.PrimaryBackgroundColor">#1A1A1A</Color> <!-- rich dark gray -->
+            <Color x:Key="Dark.SecondaryBackgroundColor">#2C2C2C</Color>
+            <Color x:Key="Dark.PrimaryForegroundColor">#FF4D4D</Color> <!-- bright red -->
+            <Color x:Key="Dark.AccentColor">#B00020</Color> <!-- deep red -->
+            <Color x:Key="Dark.BorderColor">#4D4D4D</Color>
+            <Color x:Key="Dark.TextColor">#FFFFFF</Color> <!-- white for text contrast -->
+        </Style.Resources>
+    </Style>
+
+    <!-- Use theme-aware background -->
+    <Style Selector="Window">
+        <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundColor}"/>
+    </Style>
+    
+    <!-- Button hover effects -->
+    <Style Selector="Button:pointerover">
+        <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextColor}"/>
+    </Style>
+    
+    <!-- Close button specific hover (red) -->
+    <Style Selector="Button#CloseButton:pointerover">
+        <Setter Property="Background" Value="#E81123"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextColor}"/>
+    </Style>
+    
+    <!-- Accent buttons -->
+    <Style Selector="Button.accent">
+        <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextColor}"/>
+    </Style>
+</Styles>

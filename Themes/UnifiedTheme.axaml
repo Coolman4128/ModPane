@@ -1,0 +1,43 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- Theme Variant Resources -->
+    <Style Selector="Application">
+        <Style.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.ThemeDictionaries>
+                    <!-- Light Theme Dictionary -->
+                    <ResourceDictionary x:Key="Light">
+                        <SolidColorBrush x:Key="PrimaryBackgroundColor" Color="{DynamicResource Light.PrimaryBackgroundColor}"/>
+                        <SolidColorBrush x:Key="SecondaryBackgroundColor" Color="{DynamicResource Light.SecondaryBackgroundColor}"/>
+                        <SolidColorBrush x:Key="PrimaryForegroundColor" Color="{DynamicResource Light.PrimaryForegroundColor}"/>
+                        <SolidColorBrush x:Key="AccentColor" Color="{DynamicResource Light.AccentColor}"/>
+                        <SolidColorBrush x:Key="BorderColor" Color="{DynamicResource Light.BorderColor}"/>
+                        <SolidColorBrush x:Key="TextColor" Color="{DynamicResource Light.TextColor}"/>
+                    </ResourceDictionary>
+                    
+                    <!-- Dark Theme Dictionary -->
+                    <ResourceDictionary x:Key="Dark">
+                        <SolidColorBrush x:Key="PrimaryBackgroundColor" Color="{DynamicResource Dark.PrimaryBackgroundColor}"/>
+                        <SolidColorBrush x:Key="SecondaryBackgroundColor" Color="{DynamicResource Dark.SecondaryBackgroundColor}"/>
+                        <SolidColorBrush x:Key="PrimaryForegroundColor" Color="{DynamicResource Dark.PrimaryForegroundColor}"/>
+                        <SolidColorBrush x:Key="AccentColor" Color="{DynamicResource Dark.AccentColor}"/>
+                        <SolidColorBrush x:Key="BorderColor" Color="{DynamicResource Dark.BorderColor}"/>
+                        <SolidColorBrush x:Key="TextColor" Color="{DynamicResource Dark.TextColor}"/>
+                    </ResourceDictionary>
+                    
+                    <!-- Default/Fallback Theme Dictionary (Light) -->
+                    <ResourceDictionary x:Key="Default">
+                        <SolidColorBrush x:Key="PrimaryBackgroundColor" Color="{DynamicResource Light.PrimaryBackgroundColor}"/>
+                        <SolidColorBrush x:Key="SecondaryBackgroundColor" Color="{DynamicResource Light.SecondaryBackgroundColor}"/>
+                        <SolidColorBrush x:Key="PrimaryForegroundColor" Color="{DynamicResource Light.PrimaryForegroundColor}"/>
+                        <SolidColorBrush x:Key="AccentColor" Color="{DynamicResource Light.AccentColor}"/>
+                        <SolidColorBrush x:Key="BorderColor" Color="{DynamicResource Light.BorderColor}"/>
+                        <SolidColorBrush x:Key="TextColor" Color="{DynamicResource Light.TextColor}"/>
+                    </ResourceDictionary>
+                </ResourceDictionary.ThemeDictionaries>
+            </ResourceDictionary>
+        </Style.Resources>
+    </Style>
+    
+</Styles>
