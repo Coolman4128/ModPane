@@ -17,7 +17,7 @@
 
    <Grid RowDefinitions="Auto,*">
     <!-- Custom Title Bar -->
-    <Border Background="{DynamicResource AcrylicBackground}" Height="30" Name="TitleBar">
+    <Border Background="Transparent" Height="30" Name="TitleBar">
         <DockPanel>
             <!-- Draggable Area -->
             <TextBlock Text="My App" VerticalAlignment="Center" Foreground="White" Margin="10,0" />

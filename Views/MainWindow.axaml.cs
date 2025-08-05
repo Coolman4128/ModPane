@@ -18,14 +18,25 @@ public partial class MainWindow : Window
         var icon = isDark ? new Uri("avares://ModPane/Assets/LogoDarkIcon.ico") : new Uri("avares://ModPane/Assets/LogoLightIcon.ico");
         Icon = new WindowIcon(AssetLoader.Open(icon));
 
-        ExtendClientAreaToDecorationsHint = true;
-        ExtendClientAreaChromeHints = Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome;
-        ExtendClientAreaTitleBarHeightHint = -1;
 
-        TransparencyLevelHint = new[] {
+        if (OperatingSystem.IsWindows())
+        {
+            ExtendClientAreaToDecorationsHint = true;
+            ExtendClientAreaChromeHints = Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome;
+            ExtendClientAreaTitleBarHeightHint = -1;
+
+            TransparencyLevelHint = new[] {
 
             WindowTransparencyLevel.AcrylicBlur,
+            WindowTransparencyLevel.Transparent,
+            WindowTransparencyLevel.None
         };
+        }
+        else
+        {
+            SystemDecorations = SystemDecorations.None;
+        }
+        
 
         TitleBar.PointerPressed += (s, e) =>
 {
