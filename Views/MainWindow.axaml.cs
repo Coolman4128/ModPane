@@ -5,6 +5,7 @@ using Avalonia.Interactivity;
 using Avalonia.Platform;
 using Avalonia.Styling;
 using Avalonia.Media.Imaging;
+using Avalonia.Svg.Skia;
 
 namespace ModPane.Views;
 
@@ -13,6 +14,9 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+
+        
+        
 
         // Set initial icon based on current theme
         UpdateIcon();
