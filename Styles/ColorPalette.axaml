@@ -42,4 +42,12 @@
         <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextColor}"/>
     </Style>
+
+    <Style Selector="Svg">
+    <Style.Resources>
+        <Binding x:Key="SvgCssFromTextColor"
+                 Source="{DynamicResource TextColor}"
+                 Converter="{StaticResource BrushToSvgCss}" />
+    </Style.Resources>
+    </Style>
 </Styles>

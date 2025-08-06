@@ -3,6 +3,7 @@
         xmlns:vm="using:ModPane.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:behaviors="using:ModPane.Behaviors"
         mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="720"
         x:Class="ModPane.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -56,8 +57,10 @@
                 <!-- Settings Button -->
                 <Border DockPanel.Dock="Bottom" BorderBrush="{DynamicResource BorderColor}" BorderThickness="0,1,0,0">
                     <Button Height="50" Background="Transparent" BorderThickness="0">
-                        <Svg Source="avares://ModPane/Assets/test.svg" Width="24" Height="24" 
-                              VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <Svg Path="avares://ModPane/Assets/SVGs/settings.svg" Width="24" Height="24" 
+                              VerticalAlignment="Center" HorizontalAlignment="Center"
+                                behaviors:SvgCssHelper.ComputedLightCss="{DynamicResource Light.AccentColor}"
+                                behaviors:SvgCssHelper.ComputedDarkCss="{DynamicResource Dark.AccentColor}"/>
                     </Button>
                 </Border>
 

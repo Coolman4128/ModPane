@@ -6,6 +6,12 @@ using Avalonia.Platform;
 using Avalonia.Styling;
 using Avalonia.Media.Imaging;
 using Avalonia.Svg.Skia;
+using ModPane.Behaviors;
+using Avalonia.LogicalTree;
+using Avalonia.VisualTree;
+using ModPane.Converters;
+using System.Collections.Generic;
+using Avalonia.Media;
 
 namespace ModPane.Views;
 
@@ -15,8 +21,20 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        
-        
+        foreach (var child in this.GetLogicalDescendants())
+        {
+            if (child is Avalonia.Svg.Skia.Svg svg)
+            {
+                var colorList = new List<Color>
+                {
+                    SvgCssHelper.GetComputedLightCss(svg),
+                    SvgCssHelper.GetComputedDarkCss(svg)
+                };
+                var css = new BrushToSvgCssConverter().Convert(colorList, null!, null, null!);
+                svg.SetValue(Avalonia.Svg.Skia.Svg.CssProperty, css);
+            }
+        }
+
 
         // Set initial icon based on current theme
         UpdateIcon();
@@ -41,7 +59,7 @@ public partial class MainWindow : Window
         {
             SystemDecorations = SystemDecorations.None;
         }
-        
+
 
         TitleBar.PointerPressed += (s, e) =>
 {
@@ -54,6 +72,19 @@ public partial class MainWindow : Window
     private void OnThemeChanged(object? sender, EventArgs e)
     {
         UpdateIcon();
+        foreach (var child in this.GetLogicalDescendants())
+        {
+            if (child is Avalonia.Svg.Skia.Svg svg)
+            {
+                var colorList = new List<Color>
+                {
+                    SvgCssHelper.GetComputedLightCss(svg),
+                    SvgCssHelper.GetComputedDarkCss(svg)
+                };
+                var css = new BrushToSvgCssConverter().Convert(colorList, null!, null, null!);
+                svg.SetValue(Avalonia.Svg.Skia.Svg.CssProperty, css);
+            }
+        }
     }
 
     private void UpdateIcon()
