@@ -1,109 +1,304 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:ModPane.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:behaviors="using:ModPane.Behaviors"
-        mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="720"
-        x:Class="ModPane.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
-        Title="LogicPlayground"
-        WindowStartupLocation="CenterScreen"
-        Background="{DynamicResource PrimaryBackgroundColor}">
+<Window
+    x:Class="ModPane.Views.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="using:ModPane.Behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:ModPane.ViewModels"
+    Title="ModPane"
+    d:DesignHeight="720"
+    d:DesignWidth="1280"
+    x:DataType="vm:MainWindowViewModel"
+    Background="{DynamicResource PrimaryBackgroundColor}"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
 
-    <Grid RowDefinitions="Auto,*" ColumnDefinitions="Auto,*">
-        <!-- Custom Title Bar -->
-        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+    <Window.Styles>
+        <!--  Hover Style  -->
+        <Style Selector="Button#ConnectionButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource ConnectionBackgroundColor}" />
+        </Style>
+
+        <!--  Reset Background When Not Hovered  -->
+        <Style Selector="Button#ConnectionButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource Trans.ConnectionColor}" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.2" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <!--  Register Button Hover Style  -->
+        <Style Selector="Button#RegisterButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource RegisterBackgroundColor}" />
+        </Style>
+
+        <!--  Register Button Reset Background When Not Hovered  -->
+        <Style Selector="Button#RegisterButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource Trans.RegisterColor}" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.2" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <!--  Dataview Button Hover Style  -->
+        <Style Selector="Button#DataviewButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource DataviewBackgroundColor}" />
+        </Style>
+
+        <!--  Dataview Button Reset Background When Not Hovered  -->
+        <Style Selector="Button#DataviewButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource Trans.DataviewColor}" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.2" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <!--  Logging Button Hover Style  -->
+        <Style Selector="Button#LoggingButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource LoggingBackgroundColor}" />
+        </Style>
+
+        <!--  Logging Button Reset Background When Not Hovered  -->
+        <Style Selector="Button#LoggingButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource Trans.LoggingColor}" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.2" />
+                </Transitions>
+            </Setter>
+        </Style>
+    </Window.Styles>
+
+
+
+    <Border BorderBrush="{DynamicResource BorderColor}" BorderThickness="4">
+        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*">
+            <!--  Custom Title Bar  -->
+            <Border
                 Name="TitleBar"
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Height="35"
                 Background="{DynamicResource AccentColor}"
                 BorderBrush="{DynamicResource BorderColor}"
                 BorderThickness="0,0,0,1"
-                Height="30">
-            <Grid ColumnDefinitions="*,Auto">
-                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="ModPane - v0.0.0"
-                               Margin="10,0"
-                               VerticalAlignment="Center"
-                               Foreground="{DynamicResource TextColor}"/>
-                </StackPanel>
+                CornerRadius="5 0">
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource TextColor}"
+                            Text="ModPane - v0.0.0" />
+                    </StackPanel>
 
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" 
-                            VerticalAlignment="Center">
-                    <Button Name="MinimizeButton" Click="MinimizeClick" Content="—" Width="40" Height="40" 
-                            Background="Transparent" BorderThickness="0" 
-                            Foreground="{DynamicResource TextColor}"/>
-                    <Button Name="MaximizeButton" Click="MaximizeClick" Content="🗖" Width="40" Height="40" 
-                            Background="Transparent" BorderThickness="0"
-                            Foreground="{DynamicResource TextColor}"/>
-                    <Button Name="CloseButton" Click="CloseClick" Content="✕" Width="40" Height="40" 
-                            Background="Transparent" BorderThickness="0"
-                            Foreground="{DynamicResource TextColor}"/>
-                </StackPanel>
-            </Grid>
-        </Border>
-
-        <!-- Left Sidebar -->
-        <Border Grid.Row="1" Grid.Column="0"
-                Background="{DynamicResource SecondaryBackgroundColor}"
-                BorderBrush="{DynamicResource BorderColor}"
-                BorderThickness="0,0,1,0"
-                Width="60">
-            <DockPanel>
-                <!-- Logo Area -->
-                <Border DockPanel.Dock="Top" Height="60" BorderBrush="{DynamicResource BorderColor}" BorderThickness="0,0,0,1">
-                    <Image Name="SidebarLogo" Source="/Assets/LogoDarkIcon.ico" Width="60" Height="60" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </Border>
-
-                <!-- Settings Button -->
-                <Border DockPanel.Dock="Bottom" BorderBrush="{DynamicResource BorderColor}" BorderThickness="0,1,0,0">
-                    <Button Height="50" Background="Transparent" BorderThickness="0">
-                        <Svg Path="avares://ModPane/Assets/SVGs/settings.svg" Width="24" Height="24" 
-                              VerticalAlignment="Center" HorizontalAlignment="Center"
-                                behaviors:SvgCssHelper.ComputedLightCss="{DynamicResource Light.AccentColor}"
-                                behaviors:SvgCssHelper.ComputedDarkCss="{DynamicResource Dark.AccentColor}"/>
-                    </Button>
-                </Border>
-
-                <!-- Page Navigation -->
-                <StackPanel Orientation="Vertical" Margin="0,10">
-                    <Button Content="Home" Height="40" Background="Transparent" BorderThickness="0"
-                            Foreground="{DynamicResource PrimaryForegroundColor}"/>
-                    <Button Content="Logic" Height="40" Background="Transparent" BorderThickness="0"
-                            Foreground="{DynamicResource PrimaryForegroundColor}"/>
-                    <Button Content="Device" Height="40" Background="Transparent" BorderThickness="0"
-                            Foreground="{DynamicResource PrimaryForegroundColor}"/>
-                    <Button Content="Learn" Height="40" Background="Transparent" BorderThickness="0"
-                            Foreground="{DynamicResource PrimaryForegroundColor}"/>
-                </StackPanel>
-            </DockPanel>
-        </Border>
-
-        <!-- Main Content Area -->
-        <Grid Grid.Row="1" Grid.Column="1" RowDefinitions="Auto,*" ColumnDefinitions="*,Auto">
-            <!-- Top Page Header Bar -->
-            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                    Background="{DynamicResource SecondaryBackgroundColor}"
-                    BorderBrush="{DynamicResource BorderColor}"
-                    BorderThickness="0,0,0,1"
-                    Height="60">
-                <ContentControl Content="{Binding CurrentPage.HeaderContent}" VerticalAlignment="Center" Margin="10,0"/>
+                    <StackPanel
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            Name="MinimizeButton"
+                            Width="45"
+                            Height="35"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Click="MinimizeClick"
+                            Content="—"
+                            Foreground="{DynamicResource TextColor}" />
+                        <Button
+                            Name="MaximizeButton"
+                            Width="45"
+                            Height="35"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Click="MaximizeClick"
+                            Content="🗖"
+                            Foreground="{DynamicResource TextColor}" />
+                        <Button
+                            Name="CloseButton"
+                            Width="45"
+                            Height="35"
+                            Background="#00770000"
+                            BorderThickness="0"
+                            Click="CloseClick"
+                            Content="✕"
+                            Foreground="{DynamicResource TextColor}" />
+                    </StackPanel>
+                </Grid>
             </Border>
 
-            <!-- Main Content View -->
-            <ContentControl Grid.Row="1" Grid.Column="0"
-                            Content="{Binding CurrentPage.MainContent}"
-                            Margin="5"/>
+            <!--  Left Sidebar  -->
+            <Border
+                Grid.Row="1"
+                Grid.Column="0"
+                Width="40"
+                Background="{DynamicResource SecondaryBackgroundColor}"
+                BorderBrush="{DynamicResource BorderColor}"
+                BorderThickness="0,0,1,0">
+                <DockPanel>
+                    <!--  Logo Area  -->
+                    <Border
+                        Height="40"
+                        BorderBrush="{DynamicResource BorderColor}"
+                        BorderThickness="0,0,0,1"
+                        DockPanel.Dock="Top">
+                        <Image
+                            Name="SidebarLogo"
+                            Width="40"
+                            Height="40"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Source="/Assets/LogoDarkIcon.ico" />
+                    </Border>
 
-            <!-- Collapsible Right-Side Panel -->
-            <Border Grid.Row="1" Grid.Column="1"
+                    <!--  Settings Button  -->
+                    <Border
+                        BorderBrush="{DynamicResource BorderColor}"
+                        BorderThickness="0,1,0,0"
+                        DockPanel.Dock="Bottom">
+                        <Button
+                            Width="40"
+                            Height="40"
+                            Background="Transparent"
+                            BorderThickness="0">
+                            <Svg
+                                Width="28"
+                                Height="28"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                behaviors:SvgCssHelper.ComputedDarkCss="{DynamicResource Dark.TextColor}"
+                                behaviors:SvgCssHelper.ComputedLightCss="{DynamicResource Light.TextColor}"
+                                behaviors:SvgCssHelper.CssFill="True"
+                                Path="avares://ModPane/Assets/SVGs/settings.svg" />
+                        </Button>
+                    </Border>
+
+                    <!--  Page Navigation  -->
+                    <StackPanel Margin="0,2" Orientation="Vertical">
+                        <Button
+                            Name="ConnectionButton"
+                            Width="40"
+                            Height="40"
+                            Margin="0,0,0,10"
+                            Background="{StaticResource Trans.ConnectionColor}"
+                            BorderThickness="0">
+                            <Svg
+                                Width="28"
+                                Height="28"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                behaviors:SvgCssHelper.ComputedDarkCss="{DynamicResource Dark.ConnectionColor}"
+                                behaviors:SvgCssHelper.ComputedLightCss="{DynamicResource Light.ConnectionColor}"
+                                behaviors:SvgCssHelper.CssFill="False"
+                                Path="avares://ModPane/Assets/SVGs/connections.svg" />
+                        </Button>
+                        <Button
+                            Name="RegisterButton"
+                            Width="40"
+                            Height="40"
+                            Margin="0,0,0,10"
+                            Background="{StaticResource Trans.RegisterColor}"
+                            BorderThickness="0">
+                            <Svg
+                                Width="32"
+                                Height="32"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                behaviors:SvgCssHelper.ComputedDarkCss="{DynamicResource Dark.RegisterColor}"
+                                behaviors:SvgCssHelper.ComputedLightCss="{DynamicResource Light.RegisterColor}"
+                                behaviors:SvgCssHelper.CssFill="True"
+                                Path="avares://ModPane/Assets/SVGs/registers.svg" />
+                        </Button>
+                        <Button
+                            Name="DataviewButton"
+                            Width="40"
+                            Height="40"
+                            Margin="0,0,0,10"
+                            Background="{StaticResource Trans.DataviewColor}"
+                            BorderThickness="0">
+                            <Svg
+                                Width="28"
+                                Height="28"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                behaviors:SvgCssHelper.ComputedDarkCss="{DynamicResource Light.AccentColor}"
+                                behaviors:SvgCssHelper.ComputedLightCss="{DynamicResource Light.AccentColor}"
+                                behaviors:SvgCssHelper.CssFill="True"
+                                Path="avares://ModPane/Assets/SVGs/dataview.svg" />
+                        </Button>
+                        <Button
+                            Name="LoggingButton"
+                            Width="40"
+                            Height="40"
+                            Margin="0,0,0,10"
+                            Background="{StaticResource Trans.LoggingColor}"
+                            BorderThickness="0">
+                            <Svg
+                                Width="32"
+                                Height="32"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                behaviors:SvgCssHelper.ComputedDarkCss="{DynamicResource Dark.LoggingColor}"
+                                behaviors:SvgCssHelper.ComputedLightCss="{DynamicResource Light.LoggingColor}"
+                                behaviors:SvgCssHelper.CssFill="False"
+                                Path="avares://ModPane/Assets/SVGs/logging.svg" />
+                        </Button>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+
+            <!--  Main Content Area  -->
+            <Grid
+                Grid.Row="1"
+                Grid.Column="1"
+                ColumnDefinitions="*,Auto"
+                RowDefinitions="Auto,*">
+                <!--  Top Page Header Bar  -->
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Height="40"
+                    Background="{DynamicResource SecondaryBackgroundColor}"
+                    BorderBrush="{DynamicResource BorderColor}"
+                    BorderThickness="0,0,0,1">
+                    <ContentControl
+                        Margin="10,0"
+                        VerticalAlignment="Center"
+                        Content="{Binding CurrentPage.HeaderContent}" />
+                </Border>
+
+                <!--  Main Content View  -->
+                <ContentControl
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="5"
+                    Content="{Binding CurrentPage.MainContent}" />
+
+                <!--  Collapsible Right-Side Panel  -->
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Width="250"
                     Background="{DynamicResource SecondaryBackgroundColor}"
                     BorderBrush="{DynamicResource BorderColor}"
                     BorderThickness="1,0,0,0"
-                    Width="250"
                     IsVisible="{Binding CurrentPage.IsSidePanelVisible}">
-                <ContentControl Content="{Binding CurrentPage.SidePanelContent}"/>
-            </Border>
+                    <ContentControl Content="{Binding CurrentPage.SidePanelContent}" />
+                </Border>
+            </Grid>
         </Grid>
-    </Grid>
+    </Border>
 </Window>
-

@@ -30,7 +30,8 @@ public partial class MainWindow : Window
                     SvgCssHelper.GetComputedLightCss(svg),
                     SvgCssHelper.GetComputedDarkCss(svg)
                 };
-                var css = new BrushToSvgCssConverter().Convert(colorList, null!, null, null!);
+                var fillOrStroke = SvgCssHelper.GetCssFill(svg);
+                var css = new BrushToSvgCssConverter().Convert(colorList, null!, fillOrStroke, null!);
                 svg.SetValue(Avalonia.Svg.Skia.Svg.CssProperty, css);
             }
         }
@@ -81,7 +82,9 @@ public partial class MainWindow : Window
                     SvgCssHelper.GetComputedLightCss(svg),
                     SvgCssHelper.GetComputedDarkCss(svg)
                 };
-                var css = new BrushToSvgCssConverter().Convert(colorList, null!, null, null!);
+                var fillOrStroke = SvgCssHelper.GetCssFill(svg);
+             
+                var css = new BrushToSvgCssConverter().Convert(colorList, null!, fillOrStroke, null!);
                 svg.SetValue(Avalonia.Svg.Skia.Svg.CssProperty, css);
             }
         }

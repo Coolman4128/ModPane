@@ -18,6 +18,17 @@ public static class SvgCssHelper
             "ComputedDarkCss",
             typeof(SvgCssHelper));
 
+    public static readonly AttachedProperty<bool> CssFillProperty =
+        AvaloniaProperty.RegisterAttached<AvaloniaObject, bool>(
+            "CssFill",
+            typeof(SvgCssHelper));
+
+    public static bool GetCssFill(AvaloniaObject element) =>
+        element.GetValue(CssFillProperty);
+
+    public static void SetCssFill(AvaloniaObject element, bool value) =>
+        element.SetValue(CssFillProperty, value);
+
     public static void SetComputedLightCss(AvaloniaObject element, Color value) =>
         element.SetValue(ComputedLightCssProperty, value);
 

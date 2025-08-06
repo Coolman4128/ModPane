@@ -14,6 +14,11 @@
                         <SolidColorBrush x:Key="AccentColor" Color="{DynamicResource Light.AccentColor}"/>
                         <SolidColorBrush x:Key="BorderColor" Color="{DynamicResource Light.BorderColor}"/>
                         <SolidColorBrush x:Key="TextColor" Color="{DynamicResource Light.TextColor}"/>
+                        <SolidColorBrush x:Key="ConnectionBackgroundColor" Color="{DynamicResource Dark.ConnectionColor}"/>
+                        <SolidColorBrush x:Key="RegisterBackgroundColor" Color="{DynamicResource Dark.RegisterColor}"/>
+                        <SolidColorBrush x:Key="DataviewBackgroundColor" Color="{DynamicResource Dark.DataviewColor}"/>
+                        <SolidColorBrush x:Key="LoggingBackgroundColor" Color="{DynamicResource Dark.LoggingColor}"/>
+                        <SolidColorBrush x:Key="CloseButtonColor" Color="{DynamicResource Light.CloseButtonColor}"/>
                     </ResourceDictionary>
                     
                     <!-- Dark Theme Dictionary -->
@@ -24,6 +29,11 @@
                         <SolidColorBrush x:Key="AccentColor" Color="{DynamicResource Dark.AccentColor}"/>
                         <SolidColorBrush x:Key="BorderColor" Color="{DynamicResource Dark.BorderColor}"/>
                         <SolidColorBrush x:Key="TextColor" Color="{DynamicResource Dark.TextColor}"/>
+                        <SolidColorBrush x:Key="ConnectionBackgroundColor" Color="{DynamicResource Light.ConnectionColor}"/>
+                        <SolidColorBrush x:Key="RegisterBackgroundColor" Color="{DynamicResource Light.RegisterColor}"/>
+                        <SolidColorBrush x:Key="DataviewBackgroundColor" Color="{DynamicResource Light.DataviewColor}"/>
+                        <SolidColorBrush x:Key="LoggingBackgroundColor" Color="{DynamicResource Light.LoggingColor}"/>
+                        <SolidColorBrush x:Key="CloseButtonColor" Color="{DynamicResource Dark.CloseButtonColor}"/>
                     </ResourceDictionary>
                     
                     <!-- Default/Fallback Theme Dictionary (Light) -->
@@ -34,6 +44,11 @@
                         <SolidColorBrush x:Key="AccentColor" Color="{DynamicResource Light.AccentColor}"/>
                         <SolidColorBrush x:Key="BorderColor" Color="{DynamicResource Light.BorderColor}"/>
                         <SolidColorBrush x:Key="TextColor" Color="{DynamicResource Light.TextColor}"/>
+                        <SolidColorBrush x:Key="ConnectionBackgroundColor" Color="{DynamicResource Dark.ConnectionColor}"/>
+                        <SolidColorBrush x:Key="RegisterBackgroundColor" Color="{DynamicResource Dark.RegisterColor}"/>
+                        <SolidColorBrush x:Key="DataviewBackgroundColor" Color="{DynamicResource Dark.DataviewColor}"/>
+                        <SolidColorBrush x:Key="LoggingBackgroundColor" Color="{DynamicResource Dark.LoggingColor}"/>
+                        <SolidColorBrush x:Key="CloseButtonColor" Color="{DynamicResource Light.CloseButtonColor}"/>
                     </ResourceDictionary>
                 </ResourceDictionary.ThemeDictionaries>
             </ResourceDictionary>

@@ -1,5 +1,9 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+   
+
+
     <Style>
         <Style.Resources>
             <!-- Light Theme Colors (Blue & White) -->
@@ -17,6 +21,27 @@
             <Color x:Key="Dark.AccentColor">#B00020</Color> <!-- deep red -->
             <Color x:Key="Dark.BorderColor">#4D4D4D</Color>
             <Color x:Key="Dark.TextColor">#FFFFFF</Color> <!-- white for text contrast -->
+
+
+            <!-- Header Buttons -->
+            <Color x:Key="Dark.CloseButtonColor">#770000</Color> <!-- bright red for close button -->
+            <Color x:Key="Light.CloseButtonColor">#FF4D4D</Color> <!-- bright red for close button in light theme -->
+            <Color x:Key="Trans.CloseButtonColor">#00FF4D4D</Color> <!-- transparent bright red for close button -->
+
+            <!-- Sidebar button colors-->
+            <Color x:Key="Dark.ConnectionColor">#FFD700</Color> 
+            <Color x:Key="Light.ConnectionColor">#C79A00</Color> 
+            <Color x:Key="Trans.ConnectionColor">#00FF4500</Color>
+            <Color x:Key="Dark.RegisterColor">#D32F2F</Color> 
+            <Color x:Key="Light.RegisterColor">#8B2E2E</Color> 
+            <Color x:Key="Trans.RegisterColor">#00D32F2F</Color>
+            <Color x:Key="Dark.DataviewColor">#3399FF</Color> 
+            <Color x:Key="Light.DataviewColor">#3A5F8A</Color>
+            <Color x:Key="Trans.DataviewColor">#003399FF</Color>
+            <Color x:Key="Dark.LoggingColor">#00C96B</Color> 
+            <Color x:Key="Light.LoggingColor">#4E7737</Color> 
+            <Color x:Key="Trans.LoggingColor">#0000C96B</Color>
+
         </Style.Resources>
     </Style>
 
@@ -25,29 +50,24 @@
         <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundColor}"/>
     </Style>
     
-    <!-- Button hover effects -->
-    <Style Selector="Button:pointerover">
-        <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextColor}"/>
-    </Style>
     
     <!-- Close button specific hover (red) -->
-    <Style Selector="Button#CloseButton:pointerover">
-        <Setter Property="Background" Value="#E81123"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextColor}"/>
-    </Style>
-    
-    <!-- Accent buttons -->
-    <Style Selector="Button.accent">
-        <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextColor}"/>
-    </Style>
+    <Style Selector="Button#CloseButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource CloseButtonColor}" />
 
-    <Style Selector="Svg">
-    <Style.Resources>
-        <Binding x:Key="SvgCssFromTextColor"
-                 Source="{DynamicResource TextColor}"
-                 Converter="{StaticResource BrushToSvgCss}" />
-    </Style.Resources>
-    </Style>
+        </Style>
+
+        <!--  Close Button Reset Background When Not Hovered  -->
+        <Style Selector="Button#CloseButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource Trans.CloseButtonColor}" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.2" />
+                </Transitions>
+            </Setter>
+        </Style>
+    
+
+   
+
 </Styles>
