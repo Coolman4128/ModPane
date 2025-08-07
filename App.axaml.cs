@@ -6,6 +6,7 @@ using System.Linq;
 using Avalonia.Markup.Xaml;
 using ModPane.ViewModels;
 using ModPane.Views;
+using ModPane.Models;
 
 namespace ModPane;
 
@@ -14,6 +15,7 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
+        SerialManager.Init();
     }
 
     public override void OnFrameworkInitializationCompleted()

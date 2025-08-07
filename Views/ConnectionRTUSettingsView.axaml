@@ -1,0 +1,166 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:ModPane.ViewModels"
+             xmlns:converters="using:ModPane.Converters"
+             mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="450"
+             x:Class="ModPane.Views.ConnectionRTUSettingsView"
+             x:DataType="vm:ConnectionRTUViewModel">
+
+  <UserControl.Resources>
+    <converters:ConnectionStatusColorConverter x:Key="ConnectionStatusColorConverter"/>
+    <converters:ConnectionStatusTextConverter x:Key="ConnectionStatusTextConverter"/>
+    <converters:ConnectionButtonTextConverter x:Key="ConnectionButtonTextConverter"/>
+  </UserControl.Resources>
+  
+  <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <StackPanel Margin="15">
+      <!-- Header -->
+      <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,20">
+        <TextBlock Grid.Column="0" 
+                   Text="RTU Connection Settings" 
+                   FontSize="16" 
+                   FontWeight="Bold"
+                   VerticalAlignment="Center"
+                   Foreground="{DynamicResource TextColor}"/>
+        <Button Grid.Column="1" 
+                Content="✕" 
+                Width="30" 
+                Height="30"
+                Background="Transparent"
+                BorderThickness="0"
+                FontSize="14"
+                Command="{Binding parent.CloseSidePanelCommand}"
+                ToolTip.Tip="Close"/>
+      </Grid>
+
+      <!-- Connection Name -->
+      <TextBlock Text="Name" 
+                 FontWeight="SemiBold" 
+                 Margin="0,0,0,5"
+                 Foreground="{DynamicResource TextColor}"/>
+      <TextBox Text="{Binding Name}" 
+               Watermark="Connection Name"
+               Margin="0,0,0,15"/>
+
+      <!-- Connection Type -->
+      <TextBlock Text="Type" 
+                 FontWeight="SemiBold" 
+                 Margin="0,0,0,5"
+                 Foreground="{DynamicResource TextColor}"/>
+      <ComboBox SelectedItem="{Binding ModbusType}" 
+                Margin="0,0,0,15"
+                IsEnabled="False">
+        <ComboBoxItem Content="TCP"/>
+        <ComboBoxItem Content="RTU"/>
+      </ComboBox>
+
+      <!-- Serial Port -->
+      <TextBlock Text="COM Port" 
+                 FontWeight="SemiBold" 
+                 Margin="0,0,0,5"
+                 Foreground="{DynamicResource TextColor}"/>
+      <ComboBox SelectedItem="{Binding SerialPort}" 
+                ItemsSource="{Binding AvailableSerialPorts}"
+                Margin="0,0,0,15">
+        <ComboBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding}"/>
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+
+      <!-- Baud Rate -->
+      <TextBlock Text="Baud Rate" 
+                 FontWeight="SemiBold" 
+                 Margin="0,0,0,5"
+                 Foreground="{DynamicResource TextColor}"/>
+      <ComboBox SelectedItem="{Binding BaudRate}" 
+                Margin="0,0,0,15">
+        <ComboBoxItem Content="9600"/>
+        <ComboBoxItem Content="19200"/>
+        <ComboBoxItem Content="38400"/>
+        <ComboBoxItem Content="57600"/>
+        <ComboBoxItem Content="115200"/>
+      </ComboBox>
+
+      <!-- Parity -->
+      <TextBlock Text="Parity" 
+                 FontWeight="SemiBold" 
+                 Margin="0,0,0,5"
+                 Foreground="{DynamicResource TextColor}"/>
+      <ComboBox SelectedValue="{Binding Parity}" 
+                Margin="0,0,0,15">
+        <ComboBoxItem Content="None" Tag="{x:Null}"/>
+        <ComboBoxItem Content="Even" Tag="True"/>
+        <ComboBoxItem Content="Odd" Tag="False"/>
+      </ComboBox>
+
+      <!-- Stop Bits -->
+      <TextBlock Text="Stop Bits" 
+                 FontWeight="SemiBold" 
+                 Margin="0,0,0,5"
+                 Foreground="{DynamicResource TextColor}"/>
+      <ComboBox SelectedValue="{Binding StopBits}" 
+                Margin="0,0,0,15">
+        <ComboBoxItem Content="1" Tag="True"/>
+        <ComboBoxItem Content="2" Tag="False"/>
+      </ComboBox>
+
+      <!-- Timeout -->
+      <TextBlock Text="Timeout (ms)" 
+                 FontWeight="SemiBold" 
+                 Margin="0,0,0,5"
+                 Foreground="{DynamicResource TextColor}"/>
+      <NumericUpDown Value="{Binding Timeout}" 
+                     Minimum="100" 
+                     Maximum="30000"
+                     Increment="100"
+                     Watermark="5000"
+                     Margin="0,0,0,20"/>
+
+      <!-- Connection Status -->
+      <Border Background="{DynamicResource SecondaryBackgroundColor}"
+              BorderBrush="{DynamicResource BorderColor}"
+              BorderThickness="1"
+              CornerRadius="3"
+              Padding="10"
+              Margin="0,0,0,15">
+        <StackPanel>
+          <TextBlock Text="Status" 
+                     FontWeight="SemiBold" 
+                     Margin="0,0,0,5"
+                     Foreground="{DynamicResource TextColor}"/>
+          <StackPanel Orientation="Horizontal">
+            <Border Width="12" Height="12"
+                    CornerRadius="6"
+                    VerticalAlignment="Center"
+                    Margin="0,0,8,0">
+              <Border.Background>
+                <SolidColorBrush Color="{Binding IsConnected, Converter={StaticResource ConnectionStatusColorConverter}}"/>
+              </Border.Background>
+            </Border>
+            <TextBlock Text="{Binding IsConnected, Converter={StaticResource ConnectionStatusTextConverter}}" 
+                       VerticalAlignment="Center"
+                       Foreground="{DynamicResource TextColor}"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+
+      <!-- Action Buttons -->
+      <StackPanel Orientation="Vertical" Spacing="10">
+        <Button Content="Test Connection" 
+                HorizontalAlignment="Stretch"
+                Command="{Binding TestConnectionCommand}"/>
+        <Button Content="{Binding IsConnected, Converter={StaticResource ConnectionButtonTextConverter}}" 
+                HorizontalAlignment="Stretch"
+                Command="{Binding ToggleConnectionCommand}"/>
+        <Button Content="Save Changes" 
+                HorizontalAlignment="Stretch"
+                Background="{DynamicResource AccentColor}"
+                Command="{Binding SaveChangesCommand}"/>
+      </StackPanel>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

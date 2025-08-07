@@ -1,0 +1,197 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:ModPane.ViewModels"
+             xmlns:vm2="using:Modpane.ViewModels"
+             xmlns:behaviors="using:ModPane.Behaviors"
+             xmlns:converters="using:ModPane.Converters"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ModPane.Views.ConnectionsPageView"
+             x:DataType="vm:ConnectionsPageViewModel">
+
+  <UserControl.Resources>
+    <converters:ConnectionStatusColorConverter x:Key="ConnectionStatusColorConverter"/>
+    <converters:ConnectionStatusTextConverter x:Key="ConnectionStatusTextConverter"/>
+    <converters:ConnectionStatusTooltipConverter x:Key="ConnectionStatusTooltipConverter"/>
+    <converters:ConnectionButtonTextConverter x:Key="ConnectionButtonTextConverter"/>
+  </UserControl.Resources>
+  
+  <Grid RowDefinitions="*">
+    <!-- Main Connections List -->
+    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+      <StackPanel Margin="10">
+        <!-- Connections Header -->
+        <Border Background="{DynamicResource SecondaryBackgroundColor}"
+                BorderBrush="{DynamicResource BorderColor}"
+                BorderThickness="1"
+                CornerRadius="3"
+                Margin="0,0,0,10">
+          <Grid ColumnDefinitions="*,120,120,80" Height="40">
+            <TextBlock Grid.Column="0" Text="Name" 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Left" 
+                       Margin="15,0"
+                       FontWeight="Bold"
+                       Foreground="{DynamicResource TextColor}"/>
+            <TextBlock Grid.Column="1" Text="Type" 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Center"
+                       FontWeight="Bold"
+                       Foreground="{DynamicResource TextColor}"/>
+            <TextBlock Grid.Column="2" Text="Address / Port" 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Center"
+                       FontWeight="Bold"
+                       Foreground="{DynamicResource TextColor}"/>
+            <TextBlock Grid.Column="3" Text="Status" 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Center"
+                       FontWeight="Bold"
+                       Foreground="{DynamicResource TextColor}"/>
+          </Grid>
+        </Border>
+
+        <!-- Connections List -->
+        <ItemsControl ItemsSource="{Binding Connections}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <ContentControl Content="{Binding}">
+                <ContentControl.DataTemplates>
+                  <!-- TCP Connection Template -->
+                  <DataTemplate DataType="vm2:ConnectionTCPViewModel">
+                    <Border Background="{DynamicResource PrimaryBackgroundColor}"
+                            BorderBrush="{DynamicResource BorderColor}"
+                            BorderThickness="1"
+                            CornerRadius="3"
+                            Margin="0,0,0,5">
+                      <Border.ContextMenu>
+                        <ContextMenu>
+                          <MenuItem Header="Connect" IsEnabled="{Binding !IsConnected}" Command="{Binding ConnectCommand}"/>
+                          <MenuItem Header="Disconnect" IsEnabled="{Binding IsConnected}" Command="{Binding DisconnectCommand}"/>
+                          <Separator/>
+                          <MenuItem Header="Edit" Command="{Binding parent.EditConnectionCommand}" CommandParameter="{Binding}"/>
+                          <MenuItem Header="Delete" Command="{Binding parent.DeleteConnectionCommand}" CommandParameter="{Binding}"/>
+                        </ContextMenu>
+                      </Border.ContextMenu>
+                      
+                      <i:Interaction.Behaviors>
+                        <behaviors:DoubleClickBehavior Command="{Binding parent.EditConnectionCommand}" CommandParameter="{Binding}"/>
+                      </i:Interaction.Behaviors>
+                      
+                      <Grid ColumnDefinitions="*,120,120,80" Height="40">
+                        <TextBlock Grid.Column="0" Text="{Binding Name}" 
+                                   VerticalAlignment="Center" 
+                                   HorizontalAlignment="Left" 
+                                   Margin="15,0"
+                                   Foreground="{DynamicResource TextColor}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding ModbusType}" 
+                                   VerticalAlignment="Center" 
+                                   HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource TextColor}"/>
+                        <TextBlock Grid.Column="2" 
+                                   VerticalAlignment="Center" 
+                                   HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource TextColor}">
+                          <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}:{1}">
+                              <Binding Path="IpAddress"/>
+                              <Binding Path="Port"/>
+                            </MultiBinding>
+                          </TextBlock.Text>
+                        </TextBlock>
+                        <Border Grid.Column="3" 
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center"
+                                Width="12" Height="12"
+                                CornerRadius="6"
+                                ToolTip.Tip="{Binding IsConnected, Converter={StaticResource ConnectionStatusTooltipConverter}}">
+                          <Border.Background>
+                            <SolidColorBrush Color="{Binding IsConnected, Converter={StaticResource ConnectionStatusColorConverter}}"/>
+                          </Border.Background>
+                        </Border>
+                      </Grid>
+                    </Border>
+                  </DataTemplate>
+
+                  <!-- RTU Connection Template -->
+                  <DataTemplate DataType="vm:ConnectionRTUViewModel">
+                    <Border Background="{DynamicResource PrimaryBackgroundColor}"
+                            BorderBrush="{DynamicResource BorderColor}"
+                            BorderThickness="1"
+                            CornerRadius="3"
+                            Margin="0,0,0,5">
+                      <Border.ContextMenu>
+                        <ContextMenu>
+                          <MenuItem Header="Connect" IsEnabled="{Binding !IsConnected}" Command="{Binding ConnectCommand}"/>
+                          <MenuItem Header="Disconnect" IsEnabled="{Binding IsConnected}" Command="{Binding DisconnectCommand}"/>
+                          <Separator/>
+                          <MenuItem Header="Edit" Command="{Binding parent.EditConnectionCommand}" CommandParameter="{Binding}"/>
+                          <MenuItem Header="Delete" Command="{Binding parent.DeleteConnectionCommand}" CommandParameter="{Binding}"/>
+                        </ContextMenu>
+                      </Border.ContextMenu>
+                      
+                      <i:Interaction.Behaviors>
+                        <behaviors:DoubleClickBehavior Command="{Binding parent.EditConnectionCommand}" CommandParameter="{Binding}"/>
+                      </i:Interaction.Behaviors>
+                      
+                      <Grid ColumnDefinitions="*,120,120,80" Height="40">
+                        <TextBlock Grid.Column="0" Text="{Binding Name}" 
+                                   VerticalAlignment="Center" 
+                                   HorizontalAlignment="Left" 
+                                   Margin="15,0"
+                                   Foreground="{DynamicResource TextColor}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding ModbusType}" 
+                                   VerticalAlignment="Center" 
+                                   HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource TextColor}"/>
+                        <TextBlock Grid.Column="2" 
+                                   VerticalAlignment="Center" 
+                                   HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource TextColor}">
+                          <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}@{1}">
+                              <Binding Path="SerialPort"/>
+                              <Binding Path="BaudRate"/>
+                            </MultiBinding>
+                          </TextBlock.Text>
+                        </TextBlock>
+                        <Border Grid.Column="3" 
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center"
+                                Width="12" Height="12"
+                                CornerRadius="6"
+                                ToolTip.Tip="{Binding IsConnected, Converter={StaticResource ConnectionStatusTooltipConverter}}">
+                          <Border.Background>
+                            <SolidColorBrush Color="{Binding IsConnected, Converter={StaticResource ConnectionStatusColorConverter}}"/>
+                          </Border.Background>
+                        </Border>
+                      </Grid>
+                    </Border>
+                  </DataTemplate>
+                </ContentControl.DataTemplates>
+              </ContentControl>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <!-- Empty State -->
+        <StackPanel IsVisible="{Binding !Connections.Count}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Margin="0,50">
+          <TextBlock Text="No connections found. Use the File menu to add one."
+                     FontSize="16"
+                     HorizontalAlignment="Center"
+                     Foreground="{DynamicResource TextColor}"
+                     Margin="0,0,0,20"/>
+          <Button Content="Add Connection"
+                  HorizontalAlignment="Center"
+                  Padding="20,8"
+                  Command="{Binding AddConnectionCommand}"/>
+        </StackPanel>
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</UserControl>

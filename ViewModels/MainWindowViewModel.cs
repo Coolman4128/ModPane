@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ModPane.Views;
 using System.Collections.ObjectModel;
 
 namespace ModPane.ViewModels
@@ -14,12 +15,18 @@ namespace ModPane.ViewModels
 
         public MainWindowViewModel()
         {
+            var ConnectionsPage = new ConnectionsPageViewModel(new Control(), new Control());
+            var ConnectionPageView = new ConnectionsPageView{
+                DataContext = ConnectionsPage
+            };
+            var ConnectionHeaderView = new ConnectionsHeaderView{
+                DataContext = ConnectionsPage
+            };
+            ConnectionsPage.MainContent = ConnectionPageView;
+            ConnectionsPage.HeaderContent = ConnectionHeaderView;
             Pages = new ObservableCollection<PageViewModelBase>
             {
-                new HomeViewModel(new TextBlock { Text = "Home Header" }, 
-                                   new TextBlock { Text = "Home Main Content" }, 
-                                   new TextBlock { Text = "Home Side Panel" }),
-                // Add other page view models here
+                ConnectionsPage
             };
 
             _currentPage = Pages[0];
