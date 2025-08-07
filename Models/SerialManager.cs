@@ -26,7 +26,12 @@ public static class SerialManager
     {
         while (true)
         {
+            Console.WriteLine("Refreshing available serial ports...");
             var ports = System.IO.Ports.SerialPort.GetPortNames();
+            foreach (var port in ports)
+            {
+                Console.WriteLine($"Found port: {port}");
+            }
             AvailablePorts.Clear();
             foreach (var port in ports)
             {

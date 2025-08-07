@@ -1,8 +1,12 @@
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.LogicalTree;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ModPan.ViewModels;
+using Modpane.ViewModels;
+using ModPane.Views;
 using Tmds.DBus.Protocol;
 
 namespace ModPane.ViewModels
@@ -33,27 +37,84 @@ namespace ModPane.ViewModels
             }
             else
             {
-                // Create new side panel content here at some point
+                switch (value)
+                {
+                    case ConnectionTCPViewModel tcp:
+                        SidePanelContent = new ConnectionTCPSettingsView();
+                        SidePanelContent.DataContext = tcp;
+                        break;
+                    case ConnectionRTUViewModel rtu:
+                        SidePanelContent = new ConnectionRTUSettingsView();
+                        SidePanelContent.DataContext = rtu;
+                        break;
+                    default:
+                        SidePanelContent = null;
+                        break;
+                }
                 IsSidePanelVisible = true;
                 return;
             }
         }
 
         [RelayCommand]
-        public void AddConnectionCommand()
+        public async Task AddConnectionCommand()
         {
+            var dialogViewModel = new AddConnectionDialogViewModel();
+            dialogViewModel.SetParentViewModel(this);
             
+            var dialog = new AddConnectionDialog(dialogViewModel);
+            dialogViewModel.SetDialog(dialog);
+            
+            // Try to get the main window from the view hierarchy
+            Window? mainWindow = null;
+            if (MainContent is Control control)
+            {
+                mainWindow = control.FindLogicalAncestorOfType<Window>();
+            }
+            
+            // Fallback to application main window if we can't find it through the hierarchy
+            if (mainWindow == null && Avalonia.Application.Current?.ApplicationLifetime is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                mainWindow = desktop.MainWindow;
+            }
+            
+            bool? result = null;
+            if (mainWindow != null)
+            {
+                result = await dialog.ShowDialog<bool?>(mainWindow);
+            }
+            else
+            {
+                dialog.Show();
+                // For now, we'll assume they clicked OK if no parent window
+                result = true;
+            }
+            
+            if (result == true && dialogViewModel.ResultConnection != null)
+            {
+                Connections.Add(dialogViewModel.ResultConnection);
+            }
         }
 
         [RelayCommand]
-        public void EditConnectionCommand()
+        public void EditConnectionCommand(ConnectionViewModel connection)
         {
-
+            SelectedSettingsConnection = connection;
+            IsSidePanelVisible = true;
         }
 
         [RelayCommand]
-        public void DeleteConnectionCommand()
+        public void DeleteConnectionCommand(ConnectionViewModel connection)
         {
+            Connections.Remove(connection);
+            if (SelectedSettingsConnection == connection)
+            {
+                SelectedSettingsConnection = null;
+            }
+            if (SelectedConnection == connection)
+            {
+                SelectedConnection = null;
+            }
 
         }
 
@@ -69,17 +130,7 @@ namespace ModPane.ViewModels
 
         }
 
-        [RelayCommand]
-        public void AddTcpConnectionCommand()
-        {
 
-        }
-
-        [RelayCommand]
-        public void AddRtuConnectionCommand()
-        {
-
-        }
 
         [RelayCommand]
         public void ClearConfigCommand()
@@ -91,6 +142,7 @@ namespace ModPane.ViewModels
         public void CloseSidePanelCommand()
         {
             SelectedSettingsConnection = null;
+            IsSidePanelVisible = false;
         }
 
     }

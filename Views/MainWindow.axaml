@@ -12,6 +12,7 @@
     x:DataType="vm:MainWindowViewModel"
     Background="{DynamicResource PrimaryBackgroundColor}"
     WindowStartupLocation="CenterScreen"
+    
     mc:Ignorable="d">
 
     <Window.Styles>

@@ -1,0 +1,176 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:ModPane.ViewModels"
+        xmlns:converters="using:ModPane.Converters"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="400"
+        x:Class="ModPane.Views.AddConnectionDialog"
+        x:DataType="vm:AddConnectionDialogViewModel"
+        Title="Add Connection"
+        Width="500"
+        Height="400"
+        WindowStartupLocation="CenterOwner"
+        SystemDecorations="None"
+        CanResize="False">
+
+  <Window.Resources>
+    <converters:BoolToIndexConverter x:Key="BoolToIndexConverter"/>
+  </Window.Resources>
+
+  <Border BorderBrush="{DynamicResource SystemAccentColor}" 
+          BorderThickness="2" 
+          CornerRadius="8"
+          Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+    <Grid Margin="20" RowDefinitions="Auto,*,Auto">
+    <!-- Header -->
+    <TextBlock Grid.Row="0" 
+               Text="Add New Connection" 
+               FontSize="18" 
+               FontWeight="Bold"
+               Margin="0,0,0,20"
+               HorizontalAlignment="Center"/>
+
+    <!-- Main Content -->
+    <ScrollViewer Grid.Row="1">
+      <StackPanel Spacing="15">
+        
+        <!-- Connection Name -->
+        <StackPanel>
+          <TextBlock Text="Connection Name*" FontWeight="SemiBold" Margin="0,0,0,5"/>
+          <TextBox Text="{Binding ConnectionName}" 
+                   Watermark="Enter connection name..."
+                   Width="400"
+                   HorizontalAlignment="Left"/>
+        </StackPanel>
+
+        <!-- Connection Type -->
+        <StackPanel>
+          <TextBlock Text="Connection Type" FontWeight="SemiBold" Margin="0,0,0,5"/>
+          <ComboBox ItemsSource="{Binding ConnectionTypes}"
+                    SelectedItem="{Binding SelectedConnectionType}"
+                    Width="200"
+                    HorizontalAlignment="Left"/>
+        </StackPanel>
+
+        <!-- TCP Settings -->
+        <Border IsVisible="{Binding IsTcpSelected}"
+                BorderBrush="{DynamicResource SystemAccentColor}"
+                BorderThickness="1"
+                CornerRadius="5"
+                Padding="15"
+                Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+          <StackPanel Spacing="10">
+            <TextBlock Text="TCP Settings" FontWeight="SemiBold" FontSize="14"/>
+            
+            <StackPanel>
+              <TextBlock Text="IP Address*" Margin="0,0,0,5"/>
+              <TextBox Text="{Binding IpAddress}" 
+                       Watermark="192.168.1.1"
+                       Width="200"
+                       HorizontalAlignment="Left"/>
+            </StackPanel>
+            
+            <StackPanel>
+              <TextBlock Text="Port*" Margin="0,0,0,5"/>
+              <NumericUpDown Value="{Binding Port}" 
+                             Minimum="1" 
+                             Maximum="65535"
+                             Width="150"
+                             HorizontalAlignment="Left"/>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+
+        <!-- RTU Settings -->
+        <Border IsVisible="{Binding IsRtuSelected}"
+                BorderBrush="{DynamicResource SystemAccentColor}"
+                BorderThickness="1"
+                CornerRadius="5"
+                Padding="15"
+                Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+          <StackPanel Spacing="10">
+            <TextBlock Text="RTU Settings" FontWeight="SemiBold" FontSize="14"/>
+            
+            <StackPanel>
+              <TextBlock Text="Serial Port*" Margin="0,0,0,5"/>
+              <ComboBox ItemsSource="{Binding AvailableSerialPorts}"
+                        SelectedItem="{Binding SelectedSerialPort}"
+                        Width="150"
+                        HorizontalAlignment="Left"
+                        IsVisible="{Binding HasAvailableSerialPorts}"/>
+              <TextBlock Text="No COM ports available"
+                         FontStyle="Italic"
+                         Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                         IsVisible="{Binding !HasAvailableSerialPorts}"/>
+            </StackPanel>
+            
+            <StackPanel>
+              <TextBlock Text="Baud Rate*" Margin="0,0,0,5"/>
+              <ComboBox ItemsSource="{Binding CommonBaudRates}"
+                        SelectedItem="{Binding BaudRate}"
+                        Width="150"
+                        HorizontalAlignment="Left"/>
+            </StackPanel>
+            
+            <StackPanel>
+              <TextBlock Text="Parity" Margin="0,0,0,5"/>
+              <ComboBox ItemsSource="{Binding ParityOptions}"
+                        SelectedItem="{Binding SelectedParity}"
+                        Width="150"
+                        HorizontalAlignment="Left"/>
+            </StackPanel>
+            
+            <StackPanel>
+              <TextBlock Text="Stop Bits" Margin="0,0,0,5"/>
+              <ComboBox Width="150" HorizontalAlignment="Left" SelectedIndex="{Binding StopBits, Converter={StaticResource BoolToIndexConverter}}">
+                <ComboBoxItem Content="1 Stop Bit"/>
+                <ComboBoxItem Content="2 Stop Bits"/>
+              </ComboBox>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+
+        <!-- Common Settings -->
+        <Border BorderBrush="{DynamicResource SystemAccentColor}"
+                BorderThickness="1"
+                CornerRadius="5"
+                Padding="15"
+                Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+          <StackPanel Spacing="10">
+            <TextBlock Text="Common Settings" FontWeight="SemiBold" FontSize="14"/>
+            
+            <StackPanel>
+              <TextBlock Text="Timeout (ms)" Margin="0,0,0,5"/>
+              <NumericUpDown Value="{Binding Timeout}" 
+                             Minimum="100" 
+                             Maximum="30000"
+                             Increment="100"
+                             Width="150"
+                             HorizontalAlignment="Left"/>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+
+      </StackPanel>
+    </ScrollViewer>
+
+    <!-- Buttons -->
+    <StackPanel Grid.Row="2" 
+                Orientation="Horizontal" 
+                HorizontalAlignment="Right" 
+                Spacing="10"
+                Margin="0,20,0,0">
+      <Button Content="Cancel" 
+              Command="{Binding CancelCommand}"
+              Width="80"
+              Height="32"/>
+      <Button Content="OK" 
+              Command="{Binding OkCommand}"
+              Width="80"
+              Height="32"
+              Classes="accent"/>
+    </StackPanel>
+  </Grid>
+  </Border>
+</Window>

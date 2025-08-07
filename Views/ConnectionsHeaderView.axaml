@@ -22,14 +22,9 @@
           </MenuItem.Icon>
         </MenuItem>
         <Separator/>
-        <MenuItem Header="Add TCP Connection" Command="{Binding AddTcpConnectionCommand}">
+        <MenuItem Header="Add Connection" Command="{Binding AddConnectionCommand}">
           <MenuItem.Icon>
-            <TextBlock Text="🌐" FontSize="14"/>
-          </MenuItem.Icon>
-        </MenuItem>
-        <MenuItem Header="Add RTU Connection" Command="{Binding AddRtuConnectionCommand}">
-          <MenuItem.Icon>
-            <TextBlock Text="🔌" FontSize="14"/>
+            <TextBlock Text="➕" FontSize="14"/>
           </MenuItem.Icon>
         </MenuItem>
         <Separator/>
