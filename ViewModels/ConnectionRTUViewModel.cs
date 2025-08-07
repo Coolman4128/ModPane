@@ -24,6 +24,9 @@ public partial class ConnectionRTUViewModel : ConnectionViewModel
     private bool _stopBits = true; // True == 1 Stop Bit, False == 2 Stop Bits
 
     [ObservableProperty]
+    private int _slaveAddress = 1; // Default slave address for RTU connections
+
+    [ObservableProperty]
     private int _timeout = 1000; // Default to 1000ms
 
     public ObservableCollection<string> AvailableSerialPorts => SerialManager.AvailablePorts;
