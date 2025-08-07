@@ -110,31 +110,58 @@
                         Orientation="Horizontal">
                         <Button
                             Name="MinimizeButton"
-                            Width="45"
+                            Width="40"
                             Height="35"
                             Background="Transparent"
                             BorderThickness="0"
-                            Click="MinimizeClick"
-                            Content="—"
-                            Foreground="{DynamicResource TextColor}" />
+                            Click="MinimizeClick">
+
+                            <Svg
+                                Width="14"
+                                Height="14"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                behaviors:SvgCssHelper.ComputedDarkCss="{DynamicResource Dark.TextColor}"
+                                behaviors:SvgCssHelper.ComputedLightCss="{DynamicResource Light.TextColor}"
+                                behaviors:SvgCssHelper.CssFill="True"
+                                Path="avares://ModPane/Assets/SVGs/hide.svg" />
+
+                        </Button>
                         <Button
                             Name="MaximizeButton"
-                            Width="45"
+                            Width="40"
                             Height="35"
                             Background="Transparent"
                             BorderThickness="0"
-                            Click="MaximizeClick"
-                            Content="🗖"
-                            Foreground="{DynamicResource TextColor}" />
+                            Click="MaximizeClick">
+
+                            <Svg
+                                Width="14"
+                                Height="14"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                behaviors:SvgCssHelper.ComputedDarkCss="{DynamicResource Dark.TextColor}"
+                                behaviors:SvgCssHelper.ComputedLightCss="{DynamicResource Light.TextColor}"
+                                behaviors:SvgCssHelper.CssFill="True"
+                                Path="avares://ModPane/Assets/SVGs/maximize.svg" />
+                        </Button>
                         <Button
                             Name="CloseButton"
-                            Width="45"
+                            Width="40"
                             Height="35"
                             Background="#00770000"
                             BorderThickness="0"
-                            Click="CloseClick"
-                            Content="✕"
-                            Foreground="{DynamicResource TextColor}" />
+                            Click="CloseClick">
+                            <Svg
+                                Width="14"
+                                Height="14"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                behaviors:SvgCssHelper.ComputedDarkCss="{DynamicResource Dark.TextColor}"
+                                behaviors:SvgCssHelper.ComputedLightCss="{DynamicResource Light.TextColor}"
+                                behaviors:SvgCssHelper.CssFill="False"
+                                Path="avares://ModPane/Assets/SVGs/close.svg" />
+                        </Button>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -172,7 +199,8 @@
                             Width="40"
                             Height="40"
                             Background="Transparent"
-                            BorderThickness="0">
+                            BorderThickness="0"
+                            ToolTip.Tip="Settings">
                             <Svg
                                 Width="28"
                                 Height="28"
@@ -193,7 +221,8 @@
                             Height="40"
                             Margin="0,0,0,10"
                             Background="{StaticResource Trans.ConnectionColor}"
-                            BorderThickness="0">
+                            BorderThickness="0"
+                            ToolTip.Tip="Connections">
                             <Svg
                                 Width="28"
                                 Height="28"
@@ -210,7 +239,8 @@
                             Height="40"
                             Margin="0,0,0,10"
                             Background="{StaticResource Trans.RegisterColor}"
-                            BorderThickness="0">
+                            BorderThickness="0"
+                            ToolTip.Tip="Registers">
                             <Svg
                                 Width="32"
                                 Height="32"
@@ -227,7 +257,8 @@
                             Height="40"
                             Margin="0,0,0,10"
                             Background="{StaticResource Trans.DataviewColor}"
-                            BorderThickness="0">
+                            BorderThickness="0"
+                            ToolTip.Tip="Data View">
                             <Svg
                                 Width="28"
                                 Height="28"
@@ -244,7 +275,8 @@
                             Height="40"
                             Margin="0,0,0,10"
                             Background="{StaticResource Trans.LoggingColor}"
-                            BorderThickness="0">
+                            BorderThickness="0"
+                            ToolTip.Tip="Data Logging">
                             <Svg
                                 Width="32"
                                 Height="32"

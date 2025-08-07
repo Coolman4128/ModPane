@@ -116,7 +116,27 @@ public partial class MainWindow : Window
 
     private void MaximizeClick(object? sender, RoutedEventArgs e)
     {
+        Avalonia.Svg.Skia.Svg svg = default!;
+        if (sender is Button button)
+        {
+            svg = (button.Content as Avalonia.Svg.Skia.Svg)!;
+        }
+        
         WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+        if (WindowState == WindowState.Maximized)
+        {
+            if (svg != null)
+            {
+                svg.SetValue(Avalonia.Svg.Skia.Svg.PathProperty, "avares://ModPane/Assets/SVGs/minimize.svg"); // Change SVG path to restore icon
+            }
+        }
+        else
+        {
+            if (svg != null)
+            {
+                svg.SetValue(Avalonia.Svg.Skia.Svg.PathProperty, "avares://ModPane/Assets/SVGs/maximize.svg"); // Change SVG path back to maximize icon
+            }
+        }
     }
 
     private void CloseClick(object? sender, RoutedEventArgs e)
